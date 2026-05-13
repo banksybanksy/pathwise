@@ -4,6 +4,20 @@ Pathwise is a student success platform for organizing academic goals, projects, 
 
 The product direction was simple: give students a practical place to turn vague goals into structured plans, connect those plans to useful resources, and keep the experience trustworthy enough for an academic setting.
 
+## Product Screenshots
+
+### Landing Experience
+
+![Pathwise landing page](docs/screenshots/pathwise-landing.png)
+
+### Admin Moderation Dashboard
+
+![Pathwise admin dashboard](docs/screenshots/pathwise-admin-dashboard.png)
+
+### Branded Error State
+
+![Pathwise 404 page](docs/screenshots/pathwise-404.png)
+
 ## Portfolio Context
 
 This repository originated as a shared class project owned by the SFSU course organization. This version removes course-submission artifacts, credentials, and team bio pages so the repo reads as a focused engineering case study. It is presented as a personal showcase of my contributions and judgment, not as a claim of sole authorship.
