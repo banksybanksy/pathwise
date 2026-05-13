@@ -1,0 +1,188 @@
+<!--
+Why:
+  A simple html that will allow users to sign-up to Pathwise platform and access it
+
+What:
+  Defines the form for the registeration and a simple script that will verify/validate 
+  inputted values by the user. Then it sends the registration request and returns error
+  on failure
+
+Where used:
+  Will be accessed as vertical-prototype/register.html
+  nav.js handles header implementation
+  Also the inline script will call /api/register to talk to the backend
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EJQBHDWYN8');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathwise - Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/pages/auth.css">
+</head>
+
+<body data-page="register">
+
+    <header id="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="site-title">Pathwise</a>
+
+            <nav id="main-nav">
+                <a href="landing.html" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link">Browse</a>
+                <a href="submit.html" class="nav-link">Submit Resource</a>
+
+                <div id="nav-auth" data-auth-state="guest"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="auth-page">
+        <div class="auth-card">
+            <h1 class="auth-title">Create an account</h1>
+            <p class="auth-subtitle">Join Pathwise to save resources and submit your own.</p>
+
+            <!-- Error message — shown by JS if registration fails -->
+            <div id="registerError" class="auth-error" role="alert"></div>
+
+            <form id="registerForm" class="auth-form" novalidate>
+
+                <div class="form-field">
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="input"
+                        placeholder="e.g., jsmith"
+                        required
+                        autocomplete="username"
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="input"
+                        placeholder="you@sfsu.edu"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="input"
+                        placeholder="At least 8 characters"
+                        required
+                        autocomplete="new-password"
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        class="input"
+                        placeholder="Re-enter your password"
+                        required
+                        autocomplete="new-password"
+                    >
+                </div>
+
+                <button type="submit" class="auth-submit">Create Account</button>
+
+            </form>
+
+            <p class="auth-footer">
+                Already have an account? <a href="login.html">Log in</a>
+            </p>
+        </div>
+    </main>
+
+    <script src="nav.js"></script>
+    <script>
+        const form = document.getElementById('registerForm');
+        const errorBox = document.getElementById('registerError');
+
+        function showError(message) {
+            errorBox.textContent = message;
+            errorBox.classList.add('is-visible');
+        }
+
+        function clearError() {
+            errorBox.textContent = '';
+            errorBox.classList.remove('is-visible');
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearError();
+
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (!username || !email || !password || !confirmPassword) {
+                showError('Please fill in all fields.');
+                return;
+            }
+
+            if (password.length < 8) {
+                showError('Password must be at least 8 characters.');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('Passwords do not match.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    showError(data.error || 'Registration failed. Please try again.');
+                    return;
+                }
+
+                window.location.href = 'dashboard.html';
+            } catch (err) {
+                showError('Something went wrong. Please try again.');
+            }
+        });
+    </script>
+
+</body>
+</html>

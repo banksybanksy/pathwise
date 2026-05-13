@@ -1,0 +1,115 @@
+<!--
+Why:
+  So users can edit to update their profiles, review their activities and see their 
+  submitted/saved resources
+
+What:
+  It defines the layout for the profile page
+
+Where used:
+  It will be accessed as vertical-prototype/profile.html
+  nav.js handles header implementation
+  js/profile.js for the actual profile implementation
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EJQBHDWYN8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile — Pathwise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/pages/profile.css" />
+</head>
+<body data-page="profile">
+
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="landing.html" class="site-title">Pathwise</a>
+      <nav id="main-nav">
+        <a href="landing.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link">Browse</a>
+        <a href="submit.html" class="nav-link">Submit Resource</a>
+        <div id="nav-auth"></div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="profile-main">
+    <div class="profile-inner">
+
+      <!-- Error banner — hidden until needed -->
+      <div id="profile-error" class="profile-error" hidden>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span id="profile-error-msg">Could not load profile.</span>
+      </div>
+
+      <div class="profile-layout">
+
+        <!-- Left: user info card -->
+        <aside class="profile-sidebar">
+          <div class="card profile-card" id="profile-card">
+            <!-- Skeleton shown while loading -->
+            <div class="skeleton-block skeleton-avatar"></div>
+            <div class="skeleton-block skeleton-name"></div>
+            <div class="skeleton-block skeleton-email"></div>
+          </div>
+          <div class="card profile-card profile-token-card" id="profile-token-card">
+            <p class="profile-muted">AI goal tokens</p>
+            <p class="profile-token-count"><span id="profileTokenBalance">--</span> tokens</p>
+            <div class="goal-create-options">
+              <button type="button" class="btn btn-secondary profile-token-pack" data-pack="pack_3">3 tokens - $2.99</button>
+              <button type="button" class="btn btn-secondary profile-token-pack" data-pack="pack_5">5 tokens - $3.89</button>
+              <button type="button" class="btn btn-secondary profile-token-pack" data-pack="pack_10">10 tokens - $5.99</button>
+            </div>
+            <p id="profileTokenMsg" class="profile-muted"></p>
+          </div>
+        </aside>
+
+        <!-- Right: personalization + lists -->
+        <section class="profile-content">
+          <h2 class="profile-section-title">Personalization</h2>
+          <p class="profile-muted">Used for recommendations and your Pathwise experience.</p>
+          <form id="personalize-form" class="card personalize-card">
+            <label>Interests <textarea class="input" name="interests" rows="2" placeholder="Topics you care about"></textarea></label>
+            <label>Challenges <textarea class="input" name="challenges" rows="2"></textarea></label>
+            <label>Workload <input class="input" name="workload" maxlength="100" placeholder="e.g. heavy, moderate" /></label>
+            <label>Aspirations <textarea class="input" name="aspirations" rows="2"></textarea></label>
+            <button type="submit" class="btn btn-primary">Save profile</button>
+            <p id="personalize-saved" class="profile-muted" hidden>Saved.</p>
+          </form>
+
+          <h2 class="profile-section-title" style="margin-top:24px">Recent activity</h2>
+          <div id="activity-feed" class="card activity-card">Loading…</div>
+
+          <h2 class="profile-section-title" style="margin-top:24px">Submitted Resources</h2>
+          <div id="submitted-results"></div>
+          <h2 class="profile-section-title" style="margin-top:24px">Saved Resources</h2>
+          <div id="saved-results"></div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="nav.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

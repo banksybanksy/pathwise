@@ -1,0 +1,65 @@
+<!--
+Why:
+  This a page where you can view each goal in detail. This is needed since goal is nested
+  layers of projects and milestones, to where users need access to see/update specific 
+  parts of it.
+
+What:
+  It defines the the skeletons for the goal page which will further be detailed by 
+  js//goal-detail.js to actual show the goal summary, its projects and milestones.
+
+Where used:
+  - It will be accessed as vertical-prototype/goal.html?id=<goalId> depending on its id
+  - nav.js handles header implementation
+  - js/goal-detail.js for the actual implementation of goal page
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EJQBHDWYN8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Goal - Pathwise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/pages/goals.css" />
+</head>
+<body data-page="goal-detail">
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="landing.html" class="site-title">Pathwise</a>
+      <nav id="main-nav">
+        <a href="landing.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link">Browse</a>
+        <a href="submit.html" class="nav-link">Submit Resource</a>
+        <div id="nav-auth"></div>
+      </nav>
+    </div>
+  </header>
+  <main class="goal-detail-main">
+    <p id="goal-page-error" class="error" hidden></p>
+    <!-- This simple shell prevents the goal hub from flashing raw loading text on first paint. -->
+    <div id="goal-detail-root" class="goal-detail-loading">
+      <section class="card goal-detail-loading__card">
+        <div class="goal-skeleton-block goal-skeleton-title"></div>
+        <div class="goal-skeleton-block goal-skeleton-meta"></div>
+        <div class="goal-skeleton-block goal-skeleton-line"></div>
+        <div class="goal-skeleton-block goal-skeleton-line goal-skeleton-line--short"></div>
+      </section>
+    </div>
+  </main>
+  <script src="nav.js"></script>
+  <script src="js/goal-detail.js"></script>
+</body>
+</html>

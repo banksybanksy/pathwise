@@ -1,0 +1,307 @@
+<!--
+Why:
+  The first page that introduces our product to visitors and basically guide them on how
+  to navigate the platform
+
+What:
+  The page shows a marketing-style with highlights of our features, and shorcuts to browse
+  resources with predefined categories.
+
+Where used:
+  It will be accessed as vertical-prototype/landing.html
+  nav.js handles header implementation
+-->
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-EJQBHDWYN8');
+        </script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Pathwise - Student Resources for SFSU</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="css/variables.css" />
+        <link rel="stylesheet" href="css/base.css" />
+        <link rel="stylesheet" href="css/components.css" />
+        <link rel="stylesheet" href="css/layout.css" />
+        <link rel="stylesheet" href="css/pages/landing.css" />
+    </head>
+
+    <body data-page="landing">
+        <header id="site-header">
+            <div class="header-inner">
+                <a href="index.html" class="site-title">Pathwise</a>
+
+                <nav id="main-nav">
+                    <a href="landing.html" class="nav-link">Home</a>
+                    <a href="index.html" class="nav-link">Browse</a>
+                    <a href="submit.html" class="nav-link">Submit Resource</a>
+
+                    <div id="nav-auth" data-auth-state="guest"></div>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <!-- Hero -->
+            <section class="hero">
+                <div class="hero-inner">
+                    <h1 class="hero-title">
+                        Stop digging through Google.<br />Find what you need
+                        here.
+                    </h1>
+                    <p class="hero-subtitle">
+                        Pathwise is a student-built resource hub for SFSU.
+                        Academic help, career tools, wellness support, and more
+                        - all in one spot.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="index.html" class="btn btn-primary"
+                            >Browse Resources</a
+                        >
+                        <a href="register.html" class="btn btn-secondary"
+                            >Create Free Account</a
+                        >
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features -->
+            <section class="features">
+                <div class="section-inner">
+                    <h2 class="section-title">
+                        What's in the box
+                    </h2>
+
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon-wrap">
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <circle cx="11" cy="11" r="8" />
+                                    <path d="m21 21-4.35-4.35" />
+                                </svg>
+                            </div>
+                            <h3>Search and Filter</h3>
+                            <p>
+                                Find resources by keyword, category, or topic.
+                                Filter by cost and tags so you're not wading
+                                through stuff that doesn't apply to you.
+                            </p>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon-wrap">
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"
+                                    />
+                                </svg>
+                            </div>
+                            <h3>Bookmark for Later</h3>
+                            <p>
+                                Found something useful but don't have time right
+                                now? Save it to your bookmarks and come back
+                                when you're ready.
+                            </p>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon-wrap">
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"
+                                    />
+                                    <polyline points="16 6 12 2 8 6" />
+                                    <line x1="12" y1="2" x2="12" y2="15" />
+                                </svg>
+                            </div>
+                            <h3>Share What Helped You</h3>
+                            <p>
+                                Know a resource that got you through a tough
+                                semester? Submit it and help the next student
+                                who needs it.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories -->
+            <section class="categories">
+                <div class="section-inner">
+                    <h2 class="section-title">What are you looking for?</h2>
+
+                    <div class="category-grid">
+                        <a href="index.html?category=1" class="category-card">
+                            <div class="category-icon-wrap">
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"
+                                    />
+                                    <path
+                                        d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"
+                                    />
+                                </svg>
+                            </div>
+                            <div class="category-text">
+                                <span class="category-name">Academic</span>
+                                <span class="category-desc"
+                                    >Tutoring, study tools, writing help</span
+                                >
+                            </div>
+                        </a>
+
+                        <a href="index.html?category=2" class="category-card">
+                            <div class="category-icon-wrap">
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <rect
+                                        width="20"
+                                        height="14"
+                                        x="2"
+                                        y="7"
+                                        rx="2"
+                                        ry="2"
+                                    />
+                                    <path
+                                        d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"
+                                    />
+                                </svg>
+                            </div>
+                            <div class="category-text">
+                                <span class="category-name">Career</span>
+                                <span class="category-desc"
+                                    >Internships, resume tips, job boards</span
+                                >
+                            </div>
+                        </a>
+
+                        <a href="index.html?category=3" class="category-card">
+                            <div class="category-icon-wrap">
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+                                    />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                            </div>
+                            <div class="category-text">
+                                <span class="category-name">Personal</span>
+                                <span class="category-desc"
+                                    >Life skills, finance, housing
+                                    resources</span
+                                >
+                            </div>
+                        </a>
+
+                        <a href="index.html?category=4" class="category-card">
+                            <div class="category-icon-wrap">
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                                    />
+                                </svg>
+                            </div>
+                            <div class="category-text">
+                                <span class="category-name">Wellness</span>
+                                <span class="category-desc"
+                                    >Mental health, fitness, counseling</span
+                                >
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Closing -->
+            <section class="closing">
+                <div class="closing-inner">
+                    <h2 class="closing-title">
+                        Made by SFSU students,<br />for SFSU students. 🐊
+                    </h2>
+                </div>
+            </section>
+        </main>
+
+        <script src="nav.js"></script>
+    </body>
+</html>

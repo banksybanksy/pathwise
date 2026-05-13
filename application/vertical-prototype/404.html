@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EJQBHDWYN8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found – Pathwise</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <style>
+    body[data-page="404"] {
+      min-height: 100vh;
+      background: var(--color-background);
+    }
+
+    .notfound-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - var(--banner-height) - 64px);
+      padding: var(--space-xl) var(--space-lg);
+    }
+
+    .notfound-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-card);
+      padding: var(--space-3xl) var(--space-2xl);
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .notfound-number {
+      font-size: clamp(4rem, 14vw, 7rem);
+      font-weight: var(--font-weight-bold);
+      line-height: 1;
+      color: var(--color-border-strong);
+      letter-spacing: -0.04em;
+      margin-bottom: var(--space-md);
+      opacity: 0.15;
+      user-select: none;
+    }
+
+    .notfound-heading {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text);
+      margin-bottom: var(--space-sm);
+      line-height: 1.2;
+    }
+
+    .notfound-body {
+      font-size: var(--font-size-base);
+      color: var(--color-text-muted);
+      line-height: var(--line-height);
+      margin-bottom: var(--space-xl);
+      max-width: 36ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .notfound-actions {
+      display: flex;
+      gap: var(--space-sm);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .notfound-divider {
+      width: 40px;
+      height: 3px;
+      background: var(--color-primary);
+      border-radius: var(--radius-full);
+      margin: 0 auto var(--space-lg);
+      opacity: 0.5;
+    }
+
+    @media (max-width: 480px) {
+      .notfound-card {
+        padding: var(--space-xl) var(--space-lg);
+        border-radius: var(--radius-lg);
+      }
+
+      .notfound-actions {
+        flex-direction: column;
+      }
+
+      .notfound-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body data-page="404">
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="landing.html" class="site-title">Pathwise</a>
+      <nav id="main-nav">
+        <a href="landing.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link">Browse</a>
+        <a href="submit.html" class="nav-link">Submit Resource</a>
+        <div id="nav-auth"></div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="notfound-main">
+    <div class="notfound-card">
+      <p class="notfound-number" aria-hidden="true">404</p>
+      <div class="notfound-divider"></div>
+      <h1 class="notfound-heading">Page not found</h1>
+      <p class="notfound-body">
+        The page you're looking for doesn't exist or may have been moved.
+      </p>
+      <div class="notfound-actions">
+        <a href="landing.html" class="btn btn-primary">Go home</a>
+        <a href="index.html" class="btn btn-secondary">Browse resources</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="nav.js"></script>
+</body>
+</html>

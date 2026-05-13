@@ -1,0 +1,567 @@
+.goals-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.goals-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.goals-subtitle {
+  margin: var(--space-xs) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.goals-token-pill {
+  margin-top: var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.goals-toolbar {
+  margin-bottom: var(--space-lg);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 240px));
+  gap: var(--space-md);
+}
+
+.goals-toolbar label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.goal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+.goal-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.goal-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.goal-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+/* These skeleton blocks give the goals flow a smoother first paint. */
+.goal-card--skeleton {
+  pointer-events: none;
+}
+
+.goal-skeleton-block {
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    var(--color-skeleton-mid) 50%,
+    var(--color-border) 75%
+  );
+  background-size: 300% 100%;
+  border-radius: var(--radius-sm);
+  animation: goal-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.goal-skeleton-title {
+  height: 18px;
+  width: 68%;
+}
+
+.goal-skeleton-meta {
+  height: 12px;
+  width: 42%;
+}
+
+.goal-skeleton-line {
+  height: 12px;
+  width: 100%;
+}
+
+.goal-skeleton-line--short {
+  width: 58%;
+}
+
+@keyframes goal-skeleton-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+.goal-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.goal-card__title {
+  margin: 0;
+  font-size: var(--font-size-md);
+}
+
+.goal-card__description {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.goal-card__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.goal-card__stats div {
+  background: var(--color-background);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  display: grid;
+  gap: 2px;
+}
+
+.goal-card__stats strong {
+  font-size: var(--font-size-md);
+}
+
+.goal-card__stats span {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.goal-card__actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-sm);
+}
+
+.goal-empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-2xl) var(--space-lg);
+}
+
+.goal-empty-state__title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-sm);
+}
+
+.goal-empty-state__body {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  max-width: 36ch;
+  margin: 0 auto;
+}
+
+.goal-row__meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
+.goal-row__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.status-badge {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.status-badge--paused {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.status-badge--completed {
+  background: var(--color-primary-light);
+  color: var(--color-success);
+}
+
+.goal-form-grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.goal-form-grid .form-row--actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.goal-create-options {
+  display: grid;
+  gap: var(--space-sm);
+  margin: var(--space-md) 0;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 43, 43, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  z-index: 200;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.modal-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-card--wide {
+  max-width: 860px;
+}
+
+.modal-card h2 {
+  margin: 0 0 var(--space-md);
+  font-size: var(--font-size-lg);
+}
+
+.goal-question-set {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.goal-question-set legend {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-muted);
+  padding: 0 var(--space-xs);
+}
+
+.goal-question-set label {
+  display: grid;
+  gap: var(--space-xs);
+  font-size: var(--font-size-sm);
+}
+
+.ai-draft-section {
+  margin-top: var(--space-lg);
+  display: grid;
+  gap: var(--space-md);
+}
+
+.ai-draft-project {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.ai-draft-milestone-wrap {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.ai-draft-milestone {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.ai-draft-milestone label {
+  display: grid;
+  gap: var(--space-xs);
+  font-size: var(--font-size-sm);
+}
+
+.ai-resource-item {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+}
+
+.ai-resource-item input[type='checkbox'] {
+  margin-top: 4px;
+}
+
+/* Goal detail (projects / milestones) */
+.goal-detail-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.goal-summary {
+  margin-bottom: var(--space-lg);
+}
+
+.goal-summary h2 {
+  margin-top: 0;
+}
+
+.project-stats {
+  margin-bottom: var(--space-md);
+}
+
+.project-block__progress.compact {
+  margin-bottom: var(--space-sm);
+}
+
+.goal-detail-head {
+  margin-bottom: var(--space-xl);
+}
+
+.goal-detail-head .back-link {
+  display: inline-block;
+  margin-bottom: var(--space-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+}
+
+.project-block {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  background: var(--color-surface);
+}
+
+.project-block__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.project-block__desc {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.project-block__actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.project-block__progress {
+  margin-bottom: var(--space-md);
+}
+
+.project-block__progress label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+.project-progress-copy,
+.goal-detail-meta,
+.goal-resource-note,
+.goal-resource-id {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.project-progress-copy {
+  margin-top: var(--space-xs);
+}
+
+.goal-detail-meta {
+  margin-bottom: var(--space-sm);
+}
+
+.goal-detail-callout {
+  margin-bottom: var(--space-lg);
+}
+
+.goal-detail-callout__title {
+  margin-top: 0;
+}
+
+.goal-detail-callout__body {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.goal-detail-loading__card {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.goal-detail-empty {
+  margin-top: var(--space-md);
+  color: var(--color-text-muted);
+}
+
+.milestone-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.milestone-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-background);
+  border-radius: var(--radius-md);
+}
+
+.milestone-item--done {
+  opacity: 0.85;
+}
+
+.milestone-item__title {
+  flex: 1 1 200px;
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: flex-end;
+  margin-top: var(--space-md);
+}
+
+.inline-form .input {
+  flex: 1 1 180px;
+}
+
+.compact-fields {
+  display: grid;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: var(--font-size-sm);
+}
+
+.goal-card--highlight {
+  outline: 2px solid var(--color-primary, #2563eb);
+  outline-offset: 4px;
+  transition: outline-color 0.3s ease;
+}
+
+@media (max-width: 600px) {
+  .goals-main,
+  .goal-detail-main {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .goals-header {
+    align-items: stretch;
+  }
+
+  .goals-header .btn,
+  .goal-card__actions .btn,
+  .goal-card__actions .input,
+  .goal-form-grid .form-row--actions .btn {
+    width: 100%;
+  }
+
+  .goals-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .goal-row {
+    flex-direction: column;
+  }
+
+  .goal-card__head,
+  .project-block__head,
+  .milestone-item,
+  .goal-row__actions,
+  .goal-form-grid .form-row--actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .goal-card__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .milestone-item__title {
+    flex-basis: auto;
+  }
+
+  .inline-form,
+  .compact-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .inline-form .input,
+  .compact-fields .input,
+  .inline-form .btn,
+  .compact-fields .btn {
+    width: 100%;
+  }
+
+  .modal-backdrop {
+    padding: var(--space-md);
+    align-items: flex-end;
+  }
+
+  .modal-card {
+    max-width: none;
+    max-height: 85vh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}

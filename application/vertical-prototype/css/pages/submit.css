@@ -1,0 +1,111 @@
+#submit-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-xl);
+}
+
+.submit-inner {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.submit-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-2xl);
+}
+
+.submit-title {
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-xs);
+}
+
+.submit-subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-xl);
+}
+
+.submit-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.submit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.submit-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.submit-field label,
+.submit-tags legend {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.submit-textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.submit-tags {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.submit-tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-lg);
+  margin-top: var(--space-sm);
+}
+
+.submit-button {
+  width: 100%;
+}
+
+.submit-alert {
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.submit-alert--error {
+  background-color: var(--color-danger-soft);
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+}
+
+.submit-alert--success {
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  #submit-main {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .submit-card {
+    padding: var(--space-lg);
+  }
+
+  .submit-grid {
+    grid-template-columns: 1fr;
+  }
+}

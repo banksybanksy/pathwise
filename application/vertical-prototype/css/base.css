@@ -1,0 +1,45 @@
+/* base.css — resets, body defaults, and the mandatory SFSU banner */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { font-size: 16px; }
+
+/* Push page content down so the fixed SFSU banner doesn't cover anything */
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  padding-top: var(--banner-height);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font-family: var(--font-family); }
+
+/* Mandatory SFSU banner — fixed at the very top of every page */
+body::before {
+  content: "SFSU Software Engineering Project  \00B7  CSC 648-848, Spring 2026  \00B7  For Demonstration Only";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--banner-height);
+  background-color: var(--color-border-strong);
+  color: var(--color-text-subtle);
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  text-align: center;
+  line-height: var(--banner-height);
+  letter-spacing: 0.05em;
+  z-index: 9999;
+}

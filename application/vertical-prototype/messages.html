@@ -1,0 +1,107 @@
+<!--
+Why:
+  This page will have user-to-user messaging between two registered/verified users
+
+What:
+  It outlines how the inbox and searching containers are to be defined. There is also a
+  thread like view of all the messages for each messages between sender and receiver
+
+Where used:
+  It will be accessed as vertical-prototype/messages.html
+  nav.js handles header implementation
+  js/messages.js for the actual messaging implementation
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EJQBHDWYN8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages - Pathwise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/pages/goals.css" />
+  <style>
+    .messages-main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-lg);
+    }
+
+    .msg-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .thread-view {
+      min-height: 140px;
+      max-height: 420px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .messages-main {
+        padding: var(--space-lg) var(--space-md);
+      }
+
+      .msg-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .thread-view {
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body data-page="messages">
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="landing.html" class="site-title">Pathwise</a>
+      <nav id="main-nav">
+        <a href="landing.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link">Browse</a>
+        <a href="submit.html" class="nav-link">Submit Resource</a>
+        <div id="nav-auth"></div>
+      </nav>
+    </div>
+  </header>
+  <main class="goal-detail-main messages-main">
+    <h1>Messages</h1>
+    <p id="msg-error" class="error" hidden></p>
+    <div class="msg-layout">
+      <section class="card">
+        <h2 style="margin-top:0">Inbox</h2>
+        <div id="inbox-list">Loading…</div>
+      </section>
+      <section class="card">
+        <h2 style="margin-top:0">Compose / thread</h2>
+        <label>Find user <input type="search" id="user-search" class="input" placeholder="Search username (min 2 chars)" /></label>
+        <div id="user-suggest" style="margin:8px 0"></div>
+        <input type="hidden" id="to-user-id" />
+        <p class="profile-muted" id="to-user-label"></p>
+        <label>Message <textarea id="msg-body" class="input" rows="3"></textarea></label>
+        <button type="button" class="btn btn-primary" id="send-btn">Send</button>
+        <h3 style="margin-top:var(--space-lg)">Thread</h3>
+        <div id="thread-view" class="thread-view">Select a user or open an inbox message.</div>
+      </section>
+    </div>
+  </main>
+  <script src="nav.js"></script>
+  <script src="js/messages.js"></script>
+</body>
+</html>

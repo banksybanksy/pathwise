@@ -1,0 +1,68 @@
+<!--
+Why:
+  This is the html that will allow users to view each resources alone in full detail
+
+What:
+  Outlines the container, and the seletons that will later be modified by 
+  'vertical-prototype/resource.js' to present actual data (its detailed information and
+  action a user can take)
+
+Where used:
+  It will accessed as vertical-prototype/resource.html?id=<resourceId> depending on its id
+  Depends on resource.js for the actual implementation since this is just the skeleton.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EJQBHDWYN8');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pathwise - Resource Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages/resource.css">
+</head>
+<body data-page="resource">
+
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="landing.html" class="site-title">Pathwise</a>
+
+      <nav id="main-nav">
+        <a href="landing.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link">Browse</a>
+        <a href="submit.html" class="nav-link">Submit Resource</a>
+        <div id="nav-auth" data-auth-state="guest"></div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="resource-main">
+    <div class="resource-inner">
+      <div id="resource-error" class="resource-error" hidden></div>
+      <div id="resource-detail" class="resource-shell">
+        <div class="resource-card resource-card--loading">
+          <div class="resource-skeleton resource-skeleton-title"></div>
+          <div class="resource-skeleton resource-skeleton-meta"></div>
+          <div class="resource-skeleton resource-skeleton-body"></div>
+          <div class="resource-skeleton resource-skeleton-body resource-skeleton-body--short"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="nav.js"></script>
+  <script src="resource.js"></script>
+</body>
+</html>

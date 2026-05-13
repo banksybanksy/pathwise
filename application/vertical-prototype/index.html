@@ -1,0 +1,184 @@
+<!--
+Why:
+  We need this page so users (verified or not) can browse through the already submitted
+  resources on our platform
+
+What:
+  It defines the search containers, controls for the filter, and both the recommendation
+  and results (off the user query) areas.
+
+Where used:
+  - It will be accessed as vertical-prototype/index.html
+  - nav.js handles header implementation
+  - app.js for the actual implementation off the user query by using endpoints like 
+    /api/search and /api/recommendations
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EJQBHDWYN8');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathwise - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/pages/search.css">
+</head>
+
+<body data-page="home">
+
+    <header id="site-header">
+        <div class="header-inner">
+            <a href="landing.html" class="site-title">Pathwise</a>
+
+            <!-- Main navigation -->
+            <nav id="main-nav">
+                <a href="landing.html" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link">Browse</a>
+                <a href="submit.html" class="nav-link">Submit Resource</a>
+
+                <div id="nav-auth" data-auth-state="guest"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+
+        <!-- Search and Filters -->
+        <section id="search-section">
+            <!-- This short intro helps first-time users understand what this page does. -->
+            <div class="search-panel-intro">
+                <p class="search-panel-intro__eyebrow">Browse smarter</p>
+                <h1 class="search-panel-intro__title">Find the right support faster</h1>
+                <p class="search-panel-intro__body">
+                    Search by keyword, narrow by category, and use filters to quickly compare resources, templates, and workflows.
+                </p>
+            </div>
+
+            <!-- The search form stays simple so the demo can move quickly. -->
+            <form id="searchForm">
+                <div class="form-group">
+                    <label for="searchInput">Search:</label>
+                    <input type="text" id="searchInput" name="q" placeholder="e.g., internship, study tips..." autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category">
+                        <option value="">All Categories</option>
+                        <option value="1">Academic</option>
+                        <option value="2">Career</option>
+                        <option value="3">Personal</option>
+                        <option value="4">Wellness</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="contentType">Type:</label>
+                    <select id="contentType" name="type">
+                        <option value="">All Types</option>
+                        <option value="resource">Resource</option>
+                        <option value="template">Template</option>
+                        <option value="goal_template">Goal template</option>
+                        <option value="workflow">Workflow</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="skillArea">Skill Area:</label>
+                    <input type="text" id="skillArea" name="skill_area" placeholder="e.g., career" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <button type="submit" id="searchBtn">Search</button>
+                </div>
+            </form>
+
+            <h2>Filters</h2>
+
+            <div class="filter-group">
+                <span class="filter-label">Tag</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" value="resume" data-tag="resume" /> Resume</label>
+                    <label class="checkbox-label"><input type="checkbox" value="internship" data-tag="internship" /> Internship</label>
+                    <label class="checkbox-label"><input type="checkbox" value="study-skills" data-tag="study-skills" /> Study Skills</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-label">Cost</span>
+                <select class="cost-select" id="cost-filter">
+                    <option value="">All</option>
+                    <option value="free">Free</option>
+                    <option value="paid">Paid</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="filter-ai-only" />
+                    AI-enabled resources only
+                </label>
+            </div>
+
+            <!-- Group the filter actions so they stay aligned on desktop and mobile. -->
+            <div class="filter-actions">
+                <button type="button" class="btn-apply-filters">Apply Filters</button>
+                <button type="button" class="btn-clear-filters">Clear</button>
+            </div>
+
+            <!-- These quick themes broaden the demo beyond the base category list without hiding how browse works. -->
+            <div class="theme-shortcuts">
+                <p class="theme-shortcuts__label">Explore themes</p>
+                <div class="theme-shortcuts__grid">
+                    <button type="button" class="theme-shortcut" data-theme-query="" data-theme-category="1">Academic</button>
+                    <button type="button" class="theme-shortcut" data-theme-query="" data-theme-category="2">Career</button>
+                    <button type="button" class="theme-shortcut" data-theme-query="" data-theme-category="4">Wellness</button>
+                    <button type="button" class="theme-shortcut" data-theme-query="leadership">Leadership</button>
+                    <button type="button" class="theme-shortcut" data-theme-query="finance">Finance</button>
+                    <button type="button" class="theme-shortcut" data-theme-query="creativity">Creativity</button>
+                    <button type="button" class="theme-shortcut" data-theme-query="research">Research</button>
+                </div>
+            </div>
+
+            <div class="guest-note">
+                <p class="guest-note-title">Guest Note</p>
+                <p>Guests can browse. Saving prompts sign-in.</p>
+            </div>
+
+        </section>
+
+        <!-- Results populated by app.js via GET /api/search?q=...&category=... -->
+        <section id="results-section">
+            <!-- This helper text explains that users can browse immediately, then refine with filters. -->
+            <p class="results-helper">
+                Browse the full catalog first, then narrow the list with keywords, categories, and filters.
+            </p>
+            <section id="recommended-section" hidden>
+                <h2>Recommended for you</h2>
+                <div id="recommended-results"></div>
+            </section>
+            <h2>Results</h2>
+            <div id="results">
+                <!-- This placeholder is replaced quickly by the loading skeleton from app.js. -->
+                <p>Loading resources...</p>
+            </div>
+            <section id="template-recommended-section" hidden>
+                <h2>Goal template recommendations</h2>
+                <div id="template-recommended-results"></div>
+            </section>
+        </section>
+
+    </main>
+
+    <script src="nav.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

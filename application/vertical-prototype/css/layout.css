@@ -1,0 +1,299 @@
+/* layout.css — header, navbar, and page structure */
+
+/* --- Header --- */
+
+#site-header {
+  background-color: var(--color-header-bg);
+  border-bottom: 2px solid var(--color-header-border);
+  padding: var(--space-md) var(--space-xl);
+  position: sticky;
+  /* sit just below the SFSU banner */
+  top: var(--banner-height);
+  z-index: 100;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.site-title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-logo);
+  text-transform: uppercase;
+  color: var(--color-header-text);
+  line-height: 1;
+}
+
+/* --- Navbar --- */
+
+#main-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-xl);
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-subtle);
+  letter-spacing: var(--letter-spacing-nav);
+  transition: color 0.15s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-header-text);
+}
+
+/* Compact popovers keep the signed-in nav focused on main actions. */
+.nav-popover {
+  position: relative;
+}
+
+.nav-summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-summary::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-1px);
+  opacity: 0.8;
+}
+
+.nav-summary--active,
+.nav-popover[open] > .nav-summary {
+  color: var(--color-header-text);
+}
+
+.nav-popover__panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 190px;
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid rgba(226, 232, 228, 0.18);
+  border-radius: var(--radius-lg);
+  background: rgba(28, 40, 38, 0.98);
+  box-shadow: 0 18px 34px rgba(5, 12, 12, 0.28);
+  z-index: 120;
+}
+
+.nav-popover__link,
+.nav-popover__button {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-header-text);
+  text-align: left;
+  background: transparent;
+  border: none;
+}
+
+.nav-popover__link:hover,
+.nav-popover__button:hover,
+.nav-popover__link--active {
+  background: rgba(129, 171, 159, 0.18);
+  color: var(--color-header-text);
+}
+
+/* Register button — styled differently from plain nav links */
+.nav-btn {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  padding: 6px var(--space-md);
+  background-color: var(--color-primary);
+  color: var(--color-header-text);
+  border-radius: var(--radius-md);
+  transition: background-color 0.15s ease;
+}
+
+.nav-btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Auth links group (Login + Register) */
+#nav-auth {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-left: var(--space-lg);
+  padding-left: var(--space-lg);
+  border-left: 1px solid var(--color-header-divider);
+}
+
+#nav-auth[data-auth-state="guest"] {
+  margin-left: 0;
+}
+
+.nav-user {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-header-text);
+}
+
+.nav-logout {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.nav-logout:hover {
+  color: var(--color-header-text);
+}
+
+/* Keep the menu button hidden on desktop and reserve it for small screens. */
+.nav-toggle {
+  display: none;
+}
+
+/* --- Responsive --- */
+
+@media (max-width: 768px) {
+  #site-header {
+    padding: var(--space-md);
+  }
+
+  /* Let the title and hamburger share the first row, with the menu below. */
+  .header-inner {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .site-title {
+    display: inline-flex;
+    align-self: flex-start;
+  }
+
+  /* Match the toggle to the dark header so it feels like part of the same UI. */
+  .nav-toggle {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: 46px;
+    height: 46px;
+    margin-left: auto;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+    box-shadow: 0 10px 24px rgba(9, 15, 14, 0.18);
+    padding: 0 12px;
+    cursor: pointer;
+  }
+
+  /* Use warmer contrast on the bars so they stay visible against the softened button background. */
+  .nav-toggle__line {
+    width: 100%;
+    height: 2.5px;
+    border-radius: 999px;
+    background: rgba(250, 252, 251, 0.92);
+    transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease;
+  }
+
+  .nav-toggle:hover,
+  .nav-toggle:focus-visible {
+    border-color: rgba(129, 171, 159, 0.7);
+    background: linear-gradient(180deg, rgba(129, 171, 159, 0.18), rgba(255, 255, 255, 0.06));
+    outline: none;
+  }
+
+  .nav-toggle.is-open {
+    background: linear-gradient(180deg, rgba(129, 171, 159, 0.2), rgba(255, 255, 255, 0.08));
+  }
+
+  .nav-toggle.is-open .nav-toggle__line {
+    background: rgba(255, 255, 255, 0.96);
+  }
+
+  .nav-toggle.is-open .nav-toggle__line:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .nav-toggle.is-open .nav-toggle__line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle.is-open .nav-toggle__line:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* Collapse the nav into a vertical menu so it does not overflow on phones. */
+  #main-nav {
+    margin-left: 0;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-xs);
+    padding-top: var(--space-sm);
+  }
+
+  #main-nav.is-open {
+    display: flex;
+  }
+
+  /* Stack links and auth actions so the tap targets stay easy to use. */
+  .nav-link,
+  .nav-btn,
+  .nav-summary,
+  .nav-popover__link,
+  .nav-popover__button {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    text-align: left;
+  }
+
+  .nav-link {
+    background: rgba(74, 124, 111, 0.06);
+  }
+
+  #nav-auth {
+    width: 100%;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-xs);
+  }
+
+  /* Let dropdown content become part of the mobile stack instead of floating off-screen. */
+  .nav-popover {
+    width: 100%;
+  }
+
+  .nav-popover__panel {
+    position: static;
+    min-width: 0;
+    margin-top: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+  }
+}

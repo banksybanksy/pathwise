@@ -1,0 +1,249 @@
+<!--
+Why:
+  We needed to have this page, so user has a clear interface where they can manage their
+  goals (each one with its projects and each projects with milestones).
+
+What:
+  It defines the layout for how goals are to be viewed, filtered, and sorted. 
+  Also the editing of goals in the hub is not really defined here as that will be handled
+  by goals.js
+  
+Where used:
+  - It will be accessed as vertical-prototype/goals.html
+  - nav.js handles header implementation
+  - js/goals.js for the actual implementation of goals page
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EJQBHDWYN8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Goals - Pathwise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/pages/goals.css" />
+</head>
+<body data-page="goals">
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="landing.html" class="site-title">Pathwise</a>
+      <nav id="main-nav">
+        <a href="landing.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link">Browse</a>
+        <a href="submit.html" class="nav-link">Submit Resource</a>
+        <div id="nav-auth"></div>
+      </nav>
+    </div>
+  </header>
+  <main class="goals-main">
+    <div class="goals-header">
+      <div>
+        <h1>Your goals</h1>
+        <p class="goals-subtitle">Start broad here, then open a goal hub to manage its projects and milestones.</p>
+        <p class="goals-token-pill">AI tokens: <strong id="goalsTokenBalance">--</strong></p>
+      </div>
+      <button type="button" class="btn btn-primary" id="openCreateBtn">New goal</button>
+    </div>
+    <section class="goals-toolbar card">
+      <div>
+        <label for="statusFilter">Status</label>
+        <select id="statusFilter" class="input">
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="paused">Paused</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+      <div>
+        <label for="sortBy">Sort by</label>
+        <select id="sortBy" class="input">
+          <option value="recent">Recently updated</option>
+          <option value="progress-desc">Progress (high to low)</option>
+          <option value="progress-asc">Progress (low to high)</option>
+          <option value="target-date">Target date</option>
+        </select>
+      </div>
+    </section>
+    <p id="goals-error" class="error" hidden></p>
+    <!-- These starter skeleton cards make the page feel loaded even before the API finishes. -->
+    <div id="goals-list" class="goal-grid">
+      <article class="goal-card goal-card--skeleton">
+        <div class="goal-skeleton-block goal-skeleton-title"></div>
+        <div class="goal-skeleton-block goal-skeleton-meta"></div>
+        <div class="goal-skeleton-block goal-skeleton-line"></div>
+      </article>
+      <article class="goal-card goal-card--skeleton">
+        <div class="goal-skeleton-block goal-skeleton-title"></div>
+        <div class="goal-skeleton-block goal-skeleton-meta"></div>
+        <div class="goal-skeleton-block goal-skeleton-line"></div>
+      </article>
+      <article class="goal-card goal-card--skeleton">
+        <div class="goal-skeleton-block goal-skeleton-title"></div>
+        <div class="goal-skeleton-block goal-skeleton-meta"></div>
+        <div class="goal-skeleton-block goal-skeleton-line"></div>
+      </article>
+    </div>
+  </main>
+
+  <div class="modal-backdrop" id="goalCreateChooserModal" hidden>
+    <div class="modal-card" role="dialog" aria-labelledby="goalCreateChooserTitle">
+      <h2 id="goalCreateChooserTitle">Create a new goal</h2>
+      <p class="goals-subtitle">Choose how you want to create this goal.</p>
+      <div class="goal-create-options">
+        <button type="button" class="btn btn-primary" id="chooseManualBtn">Create manually</button>
+        <button type="button" class="btn btn-secondary" id="chooseAiBtn">Create with AI</button>
+      </div>
+      <div class="form-row--actions">
+        <button type="button" class="btn btn-secondary" id="goalCreateChooserCancelBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="goalModal" hidden>
+    <div class="modal-card" role="dialog" aria-labelledby="goalModalTitle">
+      <h2 id="goalModalTitle">New goal</h2>
+      <form id="goalForm" class="goal-form-grid">
+        <input type="hidden" id="goalId" value="" />
+        <div>
+          <label for="goalTitle">Title</label>
+          <input type="text" id="goalTitle" class="input" required minlength="2" maxlength="255" />
+        </div>
+        <div>
+          <label for="goalDescription">Description</label>
+          <textarea id="goalDescription" class="input" rows="3"></textarea>
+        </div>
+        <div>
+          <label for="goalCategory">Category</label>
+          <input type="text" id="goalCategory" class="input" maxlength="100" placeholder="e.g. Career" />
+        </div>
+        <div>
+          <label for="goalTargetDate">Target date</label>
+          <input type="date" id="goalTargetDate" class="input" />
+        </div>
+        <div class="form-row--actions">
+          <button type="submit" class="btn btn-primary" id="goalSaveBtn">Save</button>
+          <button type="button" class="btn btn-secondary" id="goalCancelBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="aiGoalModal" hidden>
+    <div class="modal-card modal-card--wide" role="dialog" aria-labelledby="aiGoalModalTitle">
+      <h2 id="aiGoalModalTitle">Create goal with AI</h2>
+      <p class="goals-subtitle">AI token balance: <strong id="aiWizardTokenBalance">--</strong> (1 token is spent only on final save).</p>
+
+      <form id="aiGoalForm" class="goal-form-grid">
+        <div>
+          <label for="aiGoalTitle">Goal title</label>
+          <input type="text" id="aiGoalTitle" class="input" required minlength="2" maxlength="255" />
+        </div>
+        <div>
+          <label for="aiGoalDescription">Goal prompt</label>
+          <textarea id="aiGoalDescription" class="input" rows="3" required placeholder="Describe what you want to achieve, your context, and constraints."></textarea>
+        </div>
+        <div>
+          <label for="aiGoalCategory">Category</label>
+          <input type="text" id="aiGoalCategory" class="input" maxlength="100" placeholder="e.g. Career" />
+        </div>
+        <div>
+          <label for="aiGoalTargetDate">Target date</label>
+          <input type="date" id="aiGoalTargetDate" class="input" />
+        </div>
+
+        <fieldset class="goal-question-set">
+          <legend>Plan settings</legend>
+          <label for="qWeeklyTime">1) How much time can you invest each week for this goal?</label>
+          <select id="qWeeklyTime" class="input" required>
+            <option value="lt5">Less than 5 hours</option>
+            <option value="5to10">5 to 10 hours</option>
+            <option value="10to20">10 to 20 hours</option>
+            <option value="gt20">More than 20 hours</option>
+          </select>
+
+          <label for="qWorkOrganization">2) How do you want the work organized?</label>
+          <select id="qWorkOrganization" class="input" required>
+            <option value="one_track">One main track</option>
+            <option value="balanced">Balanced</option>
+            <option value="many_tracks">Many parallel tracks</option>
+          </select>
+
+          <label for="qMilestoneGranularity">3) How granular do you want milestones?</label>
+          <select id="qMilestoneGranularity" class="input" required>
+            <option value="bigger">Bigger milestones</option>
+            <option value="standard">Standard</option>
+            <option value="smaller">Smaller steps</option>
+          </select>
+
+          <label for="qResourceSuggestions">4) How many resource suggestions do you want added?</label>
+          <select id="qResourceSuggestions" class="input" required>
+            <option value="none">None</option>
+            <option value="few">A few (2 to 3)</option>
+            <option value="more">More (4 to 6)</option>
+          </select>
+
+          <label for="qDeadlineFirmness">5) Is your end date a hard deadline or a rough target?</label>
+          <select id="qDeadlineFirmness" class="input" required>
+            <option value="rough">Rough target</option>
+            <option value="firm">Firm date</option>
+            <option value="hard">Hard deadline</option>
+          </select>
+        </fieldset>
+
+        <div class="form-row--actions">
+          <button type="button" class="btn btn-secondary" id="aiGenerateBtn">Generate draft</button>
+          <button type="button" class="btn btn-secondary" id="aiCancelBtn">Cancel</button>
+        </div>
+      </form>
+
+      <p id="aiGoalError" class="error" hidden></p>
+
+      <section id="aiDraftSection" class="ai-draft-section" hidden>
+        <h3>Draft plan preview</h3>
+        <p class="goals-subtitle" id="aiDraftSummary"></p>
+        <div id="aiDraftProjects"></div>
+
+        <h3>Recommended resources</h3>
+        <p class="goals-subtitle">Select resources to attach when you save this AI goal.</p>
+        <div id="aiDraftResources"></div>
+
+        <div class="form-row--actions">
+          <button type="button" class="btn btn-primary" id="aiSaveBtn">Save AI goal (1 token)</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="tokenPurchaseModal" hidden>
+    <div class="modal-card" role="dialog" aria-labelledby="tokenPurchaseTitle">
+      <h2 id="tokenPurchaseTitle">Out of AI tokens</h2>
+      <p class="goals-subtitle">You need 1 token to save an AI goal. This is demo mode; selecting a pack grants tokens immediately.</p>
+      <p class="goals-token-pill">Current balance: <strong id="purchaseTokenBalance">0</strong></p>
+      <div class="goal-create-options">
+        <button type="button" class="btn btn-secondary token-pack-btn" data-pack="pack_3">3 tokens - $2.99</button>
+        <button type="button" class="btn btn-secondary token-pack-btn" data-pack="pack_5">5 tokens - $3.89</button>
+        <button type="button" class="btn btn-secondary token-pack-btn" data-pack="pack_10">10 tokens - $5.99</button>
+      </div>
+      <div class="form-row--actions">
+        <button type="button" class="btn btn-secondary" id="tokenPurchaseCloseBtn">Close</button>
+      </div>
+      <p id="tokenPurchaseMsg" class="goals-subtitle"></p>
+    </div>
+  </div>
+
+  <script src="nav.js"></script>
+  <script src="js/goals.js"></script>
+</body>
+</html>

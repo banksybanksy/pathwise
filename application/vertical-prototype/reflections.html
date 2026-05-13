@@ -1,0 +1,235 @@
+<!--
+Why:
+  For the purpose of journaling, users can write reflection entries and have that connect
+  with any of their goals and academic planning to highlight their progress
+
+What:
+  It defines the form for the reflection and list history of previous reflections.
+
+Where used:
+  It will be accessed as vertical-prototype/reflections.html.
+  nav.js handles header implementation
+  js/reflections.js. for the actual reflections implementation
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EJQBHDWYN8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reflections - Pathwise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/pages/goals.css" />
+  <style>
+    .reflection-link-box {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      background: var(--color-background);
+      overflow: hidden;
+    }
+
+    .reflection-link-box__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      border-bottom: 1px solid var(--color-border);
+      background: var(--color-surface);
+    }
+
+    .reflection-link-box__title {
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text);
+    }
+
+    .reflection-link-box__help {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      margin-top: var(--space-xs);
+    }
+
+    .reflection-link-tree {
+      display: grid;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      max-height: 420px;
+      overflow: auto;
+    }
+
+    .reflection-goal-node {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-surface);
+      padding: var(--space-md);
+    }
+
+    .reflection-node-label {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      cursor: pointer;
+      font-weight: var(--font-weight-medium);
+    }
+
+    .reflection-node-label input {
+      margin-top: 5px;
+      flex: 0 0 auto;
+    }
+
+    .reflection-node-title {
+      display: block;
+      color: var(--color-text);
+    }
+
+    .reflection-node-meta {
+      display: block;
+      color: var(--color-text-muted);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-normal);
+      margin-top: 2px;
+    }
+
+    .reflection-project-list {
+      display: grid;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+      margin-left: var(--space-lg);
+    }
+
+    .reflection-project-node {
+      border-left: 2px solid var(--color-border);
+      padding-left: var(--space-md);
+    }
+
+    .reflection-milestone-list {
+      display: grid;
+      gap: var(--space-xs);
+      margin-top: var(--space-sm);
+      margin-left: var(--space-lg);
+    }
+
+    .reflection-milestone-node {
+      font-size: var(--font-size-sm);
+    }
+
+    .reflection-link-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+
+    .reflection-chip {
+      display: inline-flex;
+      align-items: center;
+      border-radius: var(--radius-full);
+      padding: 4px 10px;
+      font-size: var(--font-size-sm);
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      border: 1px solid rgba(74, 124, 111, 0.18);
+    }
+
+    .reflection-chip--project {
+      background: var(--color-background);
+      color: var(--color-text-muted);
+      border-color: var(--color-border);
+    }
+
+    .reflection-chip--milestone {
+      background: var(--color-warning-soft);
+      color: var(--color-warning);
+      border-color: var(--color-warning-border);
+    }
+
+    @media (max-width: 600px) {
+      .reflection-link-box__head {
+        flex-direction: column;
+      }
+
+      .reflection-project-list,
+      .reflection-milestone-list {
+        margin-left: var(--space-md);
+      }
+    }
+  </style>
+</head>
+<body data-page="reflections">
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="landing.html" class="site-title">Pathwise</a>
+      <nav id="main-nav">
+        <a href="landing.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link">Browse</a>
+        <a href="submit.html" class="nav-link">Submit Resource</a>
+        <div id="nav-auth"></div>
+      </nav>
+    </div>
+  </header>
+  <main class="goals-main">
+    <h1>Reflections</h1>
+    <!--  -->
+    <p class="profile-muted" style="margin-bottom:var(--space-lg)">
+        Journal entries. Optionally connect each reflection to your Goals, Projects, and Milestones.
+    </p>
+    <!--  -->
+    <p id="refl-error" class="error" hidden></p>
+
+    <section class="card" style="margin-bottom:var(--space-lg)">
+      <h2 style="margin-top:0">New entry</h2>
+      <form id="refl-form" class="goal-form-grid">
+        <!--  -->
+        <label>
+          Entry
+          <textarea
+            id="refl-body"
+            class="input"
+            rows="4"
+            required
+            placeholder="What did you work on? What changed? What needs attention next?"
+          ></textarea>
+        </label>
+
+        <section class="reflection-link-box">
+          <div class="reflection-link-box__head">
+            <div>
+              <p class="reflection-link-box__title">Connect this reflection</p>
+              <p class="reflection-link-box__help">
+                Select any Goals, Projects, or Milestones this reflection relates to.
+              </p>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" id="clear-reflection-links">
+              Clear selections
+            </button>
+          </div>
+
+          <div id="reflection-link-tree" class="reflection-link-tree">
+            Loading your goals, projects, and milestones…
+          </div>
+        </section>
+
+        <button type="submit" class="btn btn-primary">Save reflection</button>
+        <!--  -->
+      </form>
+    </section>
+
+    <h2>History</h2>
+    <div id="refl-list" class="goal-list">Loading…</div>
+  </main>
+  <script src="nav.js"></script>
+  <script src="js/reflections.js"></script>
+</body>
+</html>

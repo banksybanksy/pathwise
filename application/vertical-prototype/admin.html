@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EJQBHDWYN8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel – Pathwise</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <style>
+    /* This admin page now follows the same card, gradient, and spacing system used on the student dashboard. */
+    body[data-page="admin"] {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(74, 124, 111, 0.08), transparent 22%),
+        linear-gradient(180deg, #f9fbfa 0%, var(--color-background) 100%);
+    }
+
+    .admin-main {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-xl) var(--space-3xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+    }
+
+    .admin-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.9fr);
+      gap: var(--space-lg);
+      align-items: stretch;
+    }
+
+    .admin-panel {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-card);
+    }
+
+    .admin-hero__intro {
+      background:
+        linear-gradient(135deg, rgba(74, 124, 111, 0.12), rgba(74, 124, 111, 0.04)),
+        var(--color-surface);
+      padding: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 176px;
+    }
+
+    .admin-hero__eyebrow {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 var(--space-sm);
+    }
+
+    .admin-page-header h1 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text);
+      margin: 0 0 var(--space-sm);
+      line-height: 1.12;
+    }
+
+    .admin-page-header p {
+      margin: 0;
+      font-size: var(--font-size-base);
+      max-width: 64ch;
+      color: var(--color-text-muted);
+    }
+
+    .admin-hero__meta {
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-sm);
+      align-content: center;
+    }
+
+    .admin-meta-item {
+      padding: var(--space-md);
+      border: 1px solid rgba(226, 232, 228, 0.85);
+      border-radius: var(--radius-lg);
+      background: rgba(248, 251, 250, 0.94);
+    }
+
+    .admin-meta-item__label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .admin-meta-item strong {
+      display: block;
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+    }
+
+    /* These sections stay functional, but their framing now matches the app's main dashboard cards. */
+    .admin-section {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    .admin-section--stats  { border-top: 4px solid rgba(74, 124, 111, 0.72); }
+    .admin-section--queue  { border-top: 4px solid rgba(184, 134, 11, 0.72); }
+    .admin-section--users  { border-top: 4px solid rgba(83, 110, 192, 0.72); }
+
+    .admin-section__head {
+      padding: var(--space-lg) var(--space-lg) var(--space-md);
+      border-bottom: 1px solid var(--color-border);
+      background: linear-gradient(180deg, rgba(248, 251, 250, 0.96), rgba(255, 255, 255, 0.92));
+    }
+
+    .admin-section__head h2 {
+      font-size: 1rem;
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text);
+      margin: 0 0 6px;
+    }
+
+    .admin-section__copy {
+      margin: 0;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+    }
+
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+      padding: var(--space-lg);
+    }
+
+    .admin-stat-card {
+      background: linear-gradient(180deg, rgba(248, 251, 250, 0.96), rgba(255, 255, 255, 0.96));
+      border: 1px solid rgba(226, 232, 228, 0.9);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .admin-stat-card__label {
+      font-size: 0.78rem;
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .admin-stat-card__value {
+      font-size: 2rem;
+      font-weight: var(--font-weight-bold);
+      line-height: 1;
+      color: var(--color-text);
+    }
+
+    .admin-stat-card__note {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-subtle);
+      margin-top: var(--space-xs);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--font-size-sm);
+    }
+
+    .admin-table thead th {
+      background: rgba(248, 251, 250, 0.95);
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      font-weight: var(--font-weight-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--color-border);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .admin-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-border);
+      color: var(--color-text);
+      vertical-align: middle;
+      background: var(--color-surface);
+    }
+
+    .admin-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .admin-table tbody tr:hover td {
+      background: rgba(248, 251, 250, 0.92);
+    }
+
+    .admin-table__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+
+    .empty-row td {
+      color: var(--color-text-muted);
+      font-style: italic;
+      white-space: normal;
+      text-align: center;
+      padding: var(--space-xl) var(--space-lg);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: var(--font-weight-medium);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .badge--pending  { background: #fef3c7; color: #92400e; }
+    .badge--approved { background: #d1fae5; color: #065f46; }
+    .badge--rejected { background: #fee2e2; color: #991b1b; }
+
+    .badge--admin   { background: #e2e8f0; color: #334155; }
+    .badge--faculty { background: #dbeafe; color: #1e40af; }
+    .badge--staff   { background: #ccfbf1; color: #0f766e; }
+    .badge--student { background: #f3f4f6; color: #374151; }
+
+    .btn-approve,
+    .btn-reject,
+    .btn-remove,
+    .role-select {
+      font-size: 0.82rem;
+      padding: 7px 12px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      white-space: nowrap;
+      font-weight: var(--font-weight-medium);
+    }
+
+    .btn-approve {
+      border: 1px solid rgba(74, 124, 111, 0.24);
+      background: rgba(74, 124, 111, 0.12);
+      color: var(--color-primary);
+    }
+
+    .btn-approve:hover { background: rgba(74, 124, 111, 0.18); }
+
+    .btn-reject,
+    .btn-remove {
+      border: 1px solid rgba(185, 28, 28, 0.16);
+      background: #fff5f5;
+      color: #991b1b;
+    }
+
+    .btn-reject:hover,
+    .btn-remove:hover { background: #fee2e2; }
+
+    .role-select {
+      border: 1px solid var(--color-border);
+      background: rgba(248, 251, 250, 0.95);
+      color: var(--color-text);
+    }
+
+    @media (max-width: 920px) {
+      .admin-main { padding: var(--space-md); }
+      .admin-hero { grid-template-columns: 1fr; }
+      .admin-stats-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .admin-table { min-width: 560px; }
+    }
+  </style>
+</head>
+
+<body data-page="admin">
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="landing.html" class="site-title">Pathwise</a>
+      <nav id="main-nav">
+        <a href="landing.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link">Browse</a>
+        <a href="submit.html" class="nav-link">Submit Resource</a>
+        <div id="nav-auth"></div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- This hero gives the admin page the same kind of guided intro used elsewhere in the product. -->
+  <main class="admin-main" id="admin-main" style="display:none">
+    <section class="admin-hero">
+      <div class="admin-page-header admin-panel admin-hero__intro">
+        <p class="admin-hero__eyebrow">Moderation workspace</p>
+        <h1>Keep Pathwise organized and trustworthy</h1>
+        <p id="admin-subtitle">Loading…</p>
+      </div>
+      <aside class="admin-panel admin-hero__meta" aria-label="Admin priorities">
+        <div class="admin-meta-item">
+          <span class="admin-meta-item__label">Primary focus</span>
+          <strong>Review community submissions before they appear in Browse.</strong>
+        </div>
+        <div class="admin-meta-item">
+          <span class="admin-meta-item__label">Secondary focus</span>
+          <strong>Adjust staff, faculty, and admin access without leaving this page.</strong>
+        </div>
+        <div class="admin-meta-item">
+          <span class="admin-meta-item__label">Demo angle</span>
+          <strong>Show moderation, user roles, and live admin updates in one place.</strong>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Section 1: Site Stats (admin only) -->
+    <section class="admin-section admin-section--stats" id="section-stats" style="display:none" aria-label="Site stats">
+      <div class="admin-section__head">
+        <h2>Site Stats</h2>
+        <p class="admin-section__copy">Quick summary cards help the team explain platform growth and moderation load during the demo.</p>
+      </div>
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div class="admin-stat-card__label">Total Users</div>
+          <div class="admin-stat-card__value" id="stat-users">0</div>
+          <div class="admin-stat-card__note" data-stat-note></div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-card__label">Total Resources</div>
+          <div class="admin-stat-card__value" id="stat-resources">0</div>
+          <div class="admin-stat-card__note" data-stat-note></div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-card__label">Pending Approvals</div>
+          <div class="admin-stat-card__value" id="stat-pending">0</div>
+          <div class="admin-stat-card__note" data-stat-note></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Pending Submissions (admin + faculty/staff) -->
+    <section class="admin-section admin-section--queue" id="section-queue" aria-label="Pending resource submissions">
+      <div class="admin-section__head">
+        <h2>Pending Resource Submissions</h2>
+        <p class="admin-section__copy">Approve or reject resources from one queue so the review process stays easy to explain live.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Submitted By</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="queue-body">
+            <tr class="empty-row"><td colspan="6">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 3: User Management (admin only) -->
+    <section class="admin-section admin-section--users" id="section-users" style="display:none" aria-label="User management">
+      <div class="admin-section__head">
+        <h2>User Management</h2>
+        <p class="admin-section__copy">Role updates and removals stay visible here so the page shows a complete admin workflow.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Joined</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users-body">
+            <tr class="empty-row"><td colspan="5">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="nav.js"></script>
+  <script>
+    (function () {
+      const ROLES = ['admin', 'faculty', 'staff', 'student'];
+
+      function esc(v) {
+        return String(v ?? '')
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+
+      function emptyRow(cols, msg) {
+        return `<tr class="empty-row"><td colspan="${cols}">${esc(msg)}</td></tr>`;
+      }
+
+      function statusBadge(status) {
+        const s = String(status || 'pending').toLowerCase();
+        const cls = s === 'approved' ? 'approved' : s === 'rejected' ? 'rejected' : 'pending';
+        const label = cls.charAt(0).toUpperCase() + cls.slice(1);
+        return `<span class="badge badge--${cls}">${label}</span>`;
+      }
+
+      function roleBadge(role) {
+        const r = String(role || 'student').toLowerCase();
+        const label = r.charAt(0).toUpperCase() + r.slice(1);
+        return `<span class="badge badge--${r}">${label}</span>`;
+      }
+
+      function formatDate(iso) {
+        if (!iso) return '—';
+        try { return new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }); }
+        catch { return iso; }
+      }
+
+      function notConnected() {
+        alert('This action could not be completed. Try again or check that you are still signed in.');
+      }
+
+      // Update one stat card in place so the admin view reacts immediately after actions.
+      function adjustStatValue(id, delta) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const current = parseInt(el.textContent || '0', 10);
+        if (Number.isNaN(current)) return;
+        el.textContent = String(Math.max(0, current + delta));
+      }
+
+      // When the queue empties out, show the same empty row used by the initial load.
+      function ensureQueueEmptyState() {
+        const body = document.getElementById('queue-body');
+        if (!body) return;
+        if (body.querySelectorAll('tr').length === 0) {
+          body.innerHTML = emptyRow(6, 'No pending submissions');
+        }
+      }
+
+      async function loadStats() {
+        try {
+          const res = await fetch('/api/admin/stats', { credentials: 'include' });
+          if (!res.ok) throw new Error('not available');
+          const data = await res.json();
+          const u = data.totalUsers;
+          const r = data.totalResources;
+          const p = data.pendingApprovals;
+          document.getElementById('stat-users').textContent = u != null ? String(u) : '0';
+          document.getElementById('stat-resources').textContent = r != null ? String(r) : '0';
+          document.getElementById('stat-pending').textContent = p != null ? String(p) : '0';
+          document.querySelectorAll('[data-stat-note]').forEach((el) => {
+            el.textContent = '';
+          });
+        } catch {
+          document.querySelectorAll('[data-stat-note]').forEach((el) => {
+            el.textContent = 'Stats unavailable';
+          });
+        }
+      }
+
+      async function fetchMe() {
+        const res = await fetch('/api/me', { credentials: 'include' });
+        if (res.status === 401 || res.status === 403 || res.status === 404) return null;
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data.user || data;
+      }
+
+      // The queue can now approve or reject real backend items, so keep the UI counters in sync too.
+      async function loadQueue() {
+        const body = document.getElementById('queue-body');
+        let rows;
+        try {
+          const res = await fetch('/api/resources?status=pending', { credentials: 'include' });
+          if (!res.ok) throw new Error('not available');
+          const data = await res.json();
+          rows = data.resources || data.data || data;
+          if (!Array.isArray(rows) || rows.length === 0) throw new Error('empty');
+        } catch {
+          body.innerHTML = emptyRow(6, 'No pending submissions');
+          return;
+        }
+
+        body.innerHTML = rows.map(r => `
+          <tr>
+            <td>${esc(r.title)}</td>
+            <td>${esc(r.submitted_by_name || r.submitted_by || '—')}</td>
+            <td>${esc(r.category_name || r.category || '—')}</td>
+            <td>${formatDate(r.created_at)}</td>
+            <td>${statusBadge(r.status || 'pending')}</td>
+            <td>
+              <div class="admin-table__actions">
+                <button class="btn-approve" data-id="${esc(r.resource_id)}" data-action="approve">Approve</button>
+                <button class="btn-reject"  data-id="${esc(r.resource_id)}" data-action="reject">Reject</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+
+        body.addEventListener('click', async (e) => {
+          const btn = e.target.closest('[data-action]');
+          if (!btn) return;
+          const { id, action } = btn.dataset;
+          const endpoint = action === 'approve'
+            ? `/api/resources/${id}/approve`
+            : `/api/resources/${id}/reject`;
+          try {
+            const res = await fetch(endpoint, { method: 'POST', credentials: 'include' });
+            if (!res.ok) throw new Error();
+            btn.closest('tr').remove();
+            adjustStatValue('stat-pending', -1);
+            ensureQueueEmptyState();
+          } catch {
+            notConnected();
+          }
+        });
+      }
+
+      // The user list now reflects the backend admin endpoints, so keep stats synced after removals.
+      async function loadUsers() {
+        const body = document.getElementById('users-body');
+        let rows;
+        try {
+          const res = await fetch('/api/admin/users', { credentials: 'include' });
+          if (!res.ok) throw new Error('not available');
+          const data = await res.json();
+          rows = data.users || data.data || data;
+          if (!Array.isArray(rows) || rows.length === 0) throw new Error('empty');
+        } catch {
+          body.innerHTML = emptyRow(5, 'No users found');
+          return;
+        }
+
+        body.innerHTML = rows.map(u => {
+          const roleOptions = ROLES.map(r =>
+            `<option value="${r}"${r === u.role ? ' selected' : ''}>${r.charAt(0).toUpperCase() + r.slice(1)}</option>`
+          ).join('');
+          return `
+            <tr>
+              <td>${esc(u.name || u.username || '—')}</td>
+              <td>${esc(u.email || '—')}</td>
+              <td>${roleBadge(u.role)}</td>
+              <td>${formatDate(u.created_at || u.joined_at)}</td>
+              <td>
+                <div class="admin-table__actions">
+                  <select class="role-select" data-uid="${esc(u.user_id)}" data-action="change-role">${roleOptions}</select>
+                  <button class="btn-remove" data-uid="${esc(u.user_id)}" data-action="remove">Remove</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        body.addEventListener('change', async (e) => {
+          const sel = e.target.closest('[data-action="change-role"]');
+          if (!sel) return;
+          try {
+            const res = await fetch(`/api/admin/users/${sel.dataset.uid}/role`, {
+              method: 'PATCH',
+              credentials: 'include',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ role: sel.value })
+            });
+            if (!res.ok) throw new Error();
+          } catch {
+            notConnected();
+          }
+        });
+
+        body.addEventListener('click', async (e) => {
+          const btn = e.target.closest('[data-action="remove"]');
+          if (!btn) return;
+          if (!confirm('Remove this user? This cannot be undone.')) return;
+          try {
+            const res = await fetch(`/api/admin/users/${btn.dataset.uid}`, {
+              method: 'DELETE', credentials: 'include'
+            });
+            if (!res.ok) throw new Error();
+            btn.closest('tr').remove();
+            adjustStatValue('stat-users', -1);
+            if (body.querySelectorAll('tr').length === 0) {
+              body.innerHTML = emptyRow(5, 'No users found');
+            }
+          } catch {
+            notConnected();
+          }
+        });
+      }
+
+      async function init() {
+        let user;
+        try { user = await fetchMe(); } catch { user = null; }
+
+        if (!user) {
+          window.location.href = '/vertical-prototype/login.html';
+          return;
+        }
+
+        const role = (user.role || '').toLowerCase();
+
+        if (role === 'student') {
+          window.location.href = '/vertical-prototype/dashboard.html';
+          return;
+        }
+
+        if (!['admin', 'faculty', 'staff'].includes(role)) {
+          window.location.href = '/vertical-prototype/login.html';
+          return;
+        }
+
+        const name = user.name || user.username || 'User';
+        const roleLabel = role.charAt(0).toUpperCase() + role.slice(1);
+        document.getElementById('admin-subtitle').textContent = `Welcome, ${name} · ${roleLabel}`;
+        document.getElementById('admin-main').style.display = '';
+
+        if (role === 'admin') {
+          document.getElementById('section-stats').style.display = '';
+          document.getElementById('section-users').style.display = '';
+        }
+
+        await Promise.all([
+          loadQueue(),
+          role === 'admin' ? loadUsers() : Promise.resolve(),
+          role === 'admin' ? loadStats() : Promise.resolve()
+        ]);
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>

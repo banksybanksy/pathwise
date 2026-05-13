@@ -1,0 +1,152 @@
+<!--
+Why:
+  This page is needed so already signed-up users can come back again, to authenticate and
+  verify them. This will also start their session as they enter the plaform
+
+What:
+  An outline how the login form is to be and a inline script that will handle with sending
+  the user inputted info to the database and handling errors on failures.
+
+Where used:
+  It will be accessed as vertical-prototype/login.html
+  nav.js handles header implementation
+  Also the inline script will call /api/login to talk to the backend
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJQBHDWYN8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EJQBHDWYN8');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathwise - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/pages/auth.css">
+</head>
+
+<body data-page="login">
+
+    <header id="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="site-title">Pathwise</a>
+
+            <nav id="main-nav">
+                <a href="landing.html" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link">Browse</a>
+                <a href="submit.html" class="nav-link">Submit Resource</a>
+
+                <div id="nav-auth" data-auth-state="guest"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="auth-page">
+        <div class="auth-card">
+            <h1 class="auth-title">Welcome back</h1>
+            <p class="auth-subtitle">Log in to save resources and track your progress.</p>
+
+            <!-- Error message — shown by JS if login fails -->
+            <div id="loginError" class="auth-error" role="alert"></div>
+
+            <form id="loginForm" class="auth-form" novalidate>
+
+                <div class="form-field">
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="input"
+                        placeholder="you@sfsu.edu"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="input"
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <button type="submit" class="auth-submit">Log In</button>
+
+            </form>
+
+            <p class="auth-footer">
+                <a href="forgot-password.html">Forgot password?</a><br><br>
+                Don't have an account? <a href="register.html">Register</a>
+            </p>
+        </div>
+    </main>
+
+    <script src="nav.js"></script>
+    <script>
+        const form = document.getElementById('loginForm');
+        const errorBox = document.getElementById('loginError');
+
+        function showError(message) {
+            errorBox.textContent = message;
+            errorBox.classList.add('is-visible');
+        }
+
+        function clearError() {
+            errorBox.textContent = '';
+            errorBox.classList.remove('is-visible');
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearError();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showError('Please fill in all fields.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    showError(data.error || 'Invalid email or password.');
+                    return;
+                }
+
+                //window.location.href = 'index.html';
+                window.location.href = 'dashboard.html';
+            } catch (err) {
+                showError('Something went wrong. Please try again.');
+            }
+        });
+    </script>
+
+</body>
+</html>
