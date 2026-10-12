@@ -418,4 +418,17 @@ CREATE TABLE IF NOT EXISTS PasswordResetTokens (
     ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Reference rows the frontend expects: category ids 1-4 are hard-coded in the browse and
+-- submit forms, and the browse tag filters use these slugs. Safe to re-run.
+INSERT IGNORE INTO Categories (category_id, category_name) VALUES
+  (1, 'Academic'),
+  (2, 'Career'),
+  (3, 'Personal'),
+  (4, 'Wellness');
+
+INSERT IGNORE INTO Tags (tag_name) VALUES
+  ('resume'),
+  ('internship'),
+  ('study-skills');
+
 SET FOREIGN_KEY_CHECKS = 1;

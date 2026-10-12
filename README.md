@@ -57,25 +57,37 @@ Small details were treated as product work, including branded error handling and
 
 ## Run Locally
 
+Requires Node.js 18+ and a MySQL 8 (or compatible) server.
+
 ```bash
 npm install --prefix application
-cp application/.env.example application/.env
+cp application/.env.example application/.env   # then set DB_* and SESSION_SECRET
+```
+
+Create the database named in `DB_NAME`, then bootstrap the schema:
+
+```bash
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p "$DB_NAME" < application/db/migrations/masterMigration.sql
+```
+
+Start the app:
+
+```bash
 npm start
 ```
 
 The app runs at `http://localhost:3000`.
 
-Run tests:
+Optional demo data: register an account in the app first, then run the seed. It adds a sample goal, projects, and milestones to the first user in the database.
+
+```bash
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p "$DB_NAME" < application/db/migrations/003_m3_seed_demo.sql
+```
+
+Run tests (the database is mocked, so no MySQL is needed):
 
 ```bash
 npm --prefix application test
-```
-
-Fresh database bootstrap:
-
-```bash
-mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p "$DB_NAME" < application/db/migrations/masterMigration.sql
-mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p "$DB_NAME" < application/db/migrations/003_m3_seed_demo.sql
 ```
 
 ## Attribution

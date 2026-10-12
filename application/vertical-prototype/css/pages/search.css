@@ -73,8 +73,15 @@
 
 .form-group {
   display: flex;
+  flex: 1 1 170px;
   flex-direction: column;
   gap: var(--space-xs);
+  min-width: 0;
+}
+
+/* The submit button keeps its own width instead of stretching like the inputs. */
+.form-group:last-child {
+  flex: 0 0 auto;
 }
 
 .form-group:first-child {
@@ -122,7 +129,8 @@
   cursor: pointer;
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  min-width: 170px;
+  width: 100%;
+  min-width: 0;
 }
 
 #category:focus,
@@ -300,6 +308,11 @@
   color: var(--color-surface);
 }
 
+/* Signed-in users do not need the guest hint. */
+body:has(#nav-auth[data-auth-state="authenticated"]) .guest-note {
+  display: none;
+}
+
 .guest-note {
   margin-top: var(--space-lg);
   padding-top: var(--space-md);
@@ -317,7 +330,7 @@
 
 .guest-note p {
   font-size: var(--font-size-nav);
-  color: var(--color-text-subtle);
+  color: var(--color-text-muted);
   line-height: 1.5;
 }
 

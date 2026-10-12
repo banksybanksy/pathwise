@@ -28,7 +28,10 @@ button, input, select, textarea { font-family: var(--font-family); }
 /* Mandatory SFSU banner — fixed at the very top of every page */
 body::before {
   content: "SFSU Software Engineering Project  \00B7  CSC 648-848, Spring 2026  \00B7  For Demonstration Only";
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-md);
   position: fixed;
   top: 0;
   left: 0;
@@ -39,7 +42,12 @@ body::before {
   font-family: var(--font-family);
   font-size: var(--font-size-xs);
   text-align: center;
-  line-height: var(--banner-height);
+  line-height: 1.4;
   letter-spacing: 0.05em;
   z-index: 9999;
+}
+
+/* On phones the banner text needs two lines; grow the banner so it never overlaps the header. */
+@media (max-width: 560px) {
+  :root { --banner-height: 40px; }
 }

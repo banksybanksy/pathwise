@@ -16,6 +16,7 @@ Run incremental migrations in order from the `application/db/migrations` directo
 12. `012_admin_resource_moderation.sql` (adds `admin` user role and `Resources.moderation_status`)
 13. `013_ai_goal_tokens.sql` (adds `Users.ai_goal_tokens` with default/backfill of 5)
 14. `014_password_reset_tokens.sql` (`PasswordResetTokens` for forgot-password flow)
+15. `015_reflection_links.sql` (`ReflectionGoals`, `ReflectionProjects`, `ReflectionMilestones`)
 
 `007` and `010` add `Resources` columns only when missing (Oracle MySQL does not support `ADD COLUMN IF NOT EXISTS`). Other steps use `CREATE TABLE IF NOT EXISTS` where applicable.
 
@@ -64,7 +65,7 @@ For a brand-new database, run:
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p "$DB_NAME" < masterMigration.sql
 ```
 
-Then optionally run:
+Then optionally register an account in the app and run (the seed attaches demo goals to the first user, so it inserts nothing on an empty `Users` table):
 
 ```bash
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p "$DB_NAME" < 003_m3_seed_demo.sql

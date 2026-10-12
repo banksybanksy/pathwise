@@ -295,6 +295,12 @@
       color: var(--color-text);
     }
 
+    .btn-remove:disabled,
+    .role-select:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     @media (max-width: 920px) {
       .admin-main { padding: var(--space-md); }
       .admin-hero { grid-template-columns: 1fr; }
@@ -555,7 +561,7 @@
       }
 
       // The user list now reflects the backend admin endpoints, so keep stats synced after removals.
-      async function loadUsers() {
+      async function loadUsers(currentUserId) {
         const body = document.getElementById('users-body');
         let rows;
         try {
@@ -573,6 +579,9 @@
           const roleOptions = ROLES.map(r =>
             `<option value="${r}"${r === u.role ? ' selected' : ''}>${r.charAt(0).toUpperCase() + r.slice(1)}</option>`
           ).join('');
+          // The API refuses to change or remove your own account, so do not offer it here.
+          const isSelf = String(u.user_id) === String(currentUserId);
+          const selfAttrs = isSelf ? ' disabled title="You cannot change your own account here"' : '';
           return `
             <tr>
               <td>${esc(u.name || u.username || '—')}</td>
@@ -581,8 +590,8 @@
               <td>${formatDate(u.created_at || u.joined_at)}</td>
               <td>
                 <div class="admin-table__actions">
-                  <select class="role-select" data-uid="${esc(u.user_id)}" data-action="change-role">${roleOptions}</select>
-                  <button class="btn-remove" data-uid="${esc(u.user_id)}" data-action="remove">Remove</button>
+                  <select class="role-select" data-uid="${esc(u.user_id)}" data-current="${esc(u.role)}" data-action="change-role"${selfAttrs}>${roleOptions}</select>
+                  <button class="btn-remove" data-uid="${esc(u.user_id)}" data-action="remove"${selfAttrs}>Remove</button>
                 </div>
               </td>
             </tr>
@@ -600,7 +609,11 @@
               body: JSON.stringify({ role: sel.value })
             });
             if (!res.ok) throw new Error();
+            // Keep the role badge in step with what the server saved.
+            sel.dataset.current = sel.value;
+            sel.closest('tr').children[2].innerHTML = roleBadge(sel.value);
           } catch {
+            sel.value = sel.dataset.current;
             notConnected();
           }
         });
@@ -658,7 +671,7 @@
 
         await Promise.all([
           loadQueue(),
-          role === 'admin' ? loadUsers() : Promise.resolve(),
+          role === 'admin' ? loadUsers(user.user_id) : Promise.resolve(),
           role === 'admin' ? loadStats() : Promise.resolve()
         ]);
       }
