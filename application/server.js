@@ -117,6 +117,20 @@ app.use(
   })
 );
 
+// Many handlers reply to unexpected failures with err.message. Log that detail on the
+// server and send users a generic message so database errors and hostnames stay private.
+app.use('/api', (req, res, next) => {
+  const sendJson = res.json.bind(res);
+  res.json = (body) => {
+    if (res.statusCode === 500 && body && typeof body.error === 'string' && body.error !== 'Internal server error') {
+      console.error(`[api] ${req.method} ${req.originalUrl}:`, body.error);
+      body = { ...body, error: 'Something went wrong. Please try again.' };
+    }
+    return sendJson(body);
+  };
+  next();
+});
+
 // API routes (before static so /api/* is never treated as a static file)
 app.use('/api', authRoutes);
 app.use('/api', bookmarkRoutes);
@@ -390,12 +404,14 @@ app.get('/', (req, res) => {
   res.redirect('/vertical-prototype/landing.html');
 });
 
+// There is no standalone about page; send old /about links to the landing page.
 app.get('/about', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.redirect('/vertical-prototype/landing.html');
 });
 
-// Static files (HTML, CSS, etc.) from application directory
-app.use(express.static(path.join(__dirname)));
+// Static files: only the frontend and uploaded images, so server code and SQL are never served.
+app.use('/vertical-prototype', express.static(path.join(__dirname, 'vertical-prototype')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // 404 catch-all — must come after static middleware and all routes.
 app.use((req, res) => {

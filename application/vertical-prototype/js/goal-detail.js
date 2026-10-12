@@ -312,7 +312,7 @@
       <div class="goal-detail-head">
         <a href="goals.html" class="back-link">← All goals</a>
         <h1>${esc(goal.title)}</h1>
-        <p class="goal-detail-meta">${esc(goal.category || '')}${goal.target_date ? ` · Target ${esc(goal.target_date)}` : ''}</p>
+        <p class="goal-detail-meta">${esc(goal.category || '')}${goal.target_date ? ` · Target ${esc(String(goal.target_date).slice(0, 10))}` : ''}</p>
         ${goal.description ? `<p class="goal-detail-meta">${esc(goal.description)}</p>` : ''}
         <p><span class="status-badge">${esc(goal.status)}</span>${tk !== 'none' ? ` <span class="status-badge">${esc(tk)}</span>` : ''}</p>
       </div>

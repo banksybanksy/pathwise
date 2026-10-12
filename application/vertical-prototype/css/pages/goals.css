@@ -397,6 +397,20 @@
   margin-bottom: var(--space-md);
 }
 
+/* Goals pages do not load dashboard.css, so the shared progress bar is defined here too. */
+.progress {
+  width: 100%;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--color-primary);
+}
+
 .project-block__progress label {
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
@@ -535,6 +549,10 @@
 
   .goal-card__stats {
     grid-template-columns: 1fr;
+  }
+
+  .goal-card__head .status-badge {
+    align-self: flex-start;
   }
 
   .milestone-item__title {
